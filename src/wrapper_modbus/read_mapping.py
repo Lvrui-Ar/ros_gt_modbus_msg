@@ -1,19 +1,23 @@
 import json
+from wrapper_modbus.PLC_csv2json import CsvToJson
 
 class ReadMapping:
-    def __init__(self, file_path1, file_path2):
-        self._initialize_properties(file_path1, file_path2)
+    def __init__(self, file_path1):
+        self._initialize_properties(file_path1)
 
-    def _initialize_properties(self, file_path1, file_path2):
+    def _initialize_properties(self, file_path1,file_path2="./Address_table.json"):
         """初始化类的属性"""
+
+        csv_to_json = CsvToJson()
+
         try:
             opera_content = self._read_file(file_path1)
-            json_mapping = self._validate_json(self._read_file(file_path2))
+            json_mapping = self._read_file(file_path2)
         except Exception as e:
             # 日志记录或其他错误处理机制
             print(f"初始化失败: {e}")
             raise
-
+        
         self.opera = opera_content
         self.json_mapping = json_mapping
         self.host = json_mapping.get("host")
@@ -28,10 +32,5 @@ class ReadMapping:
             data = json.load(j)
         return data
 
-    def _validate_json(self, json_string):
-        """验证并解析JSON字符串"""
-        try:
-            return json.loads(json_string)
-        except json.JSONDecodeError as e:
-            print(f"JSON解析错误: {e}")
-            raise
+
+
