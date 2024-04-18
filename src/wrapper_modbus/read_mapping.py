@@ -18,10 +18,11 @@ class ReadMapping:
             print(f"初始化失败: {e}")
             raise
         
-        self.opera = opera_content
+        self.opera = opera_content["mapping"]
         self.json_mapping = json_mapping
         self.host = json_mapping.get("host")
         self.port = json_mapping.get("port")
+        self.axis_num = json_mapping.get("axis_num")
         self.write_register = json_mapping.get("mapping", {}).get("write_register")
         self.read_register = json_mapping.get("mapping", {}).get("read_register")
 

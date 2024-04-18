@@ -33,6 +33,7 @@ class CsvToJson:
         plc_json = {
             "host": "",
             "port": "502",
+            "axis_num": 3,
             "mapping": {"write_register": data1, "read_register": data2}
         }
         json_file_path = 'Address_table.json'

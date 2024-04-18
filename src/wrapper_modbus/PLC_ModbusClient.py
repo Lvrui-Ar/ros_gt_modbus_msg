@@ -22,10 +22,11 @@ class PLC_ModbusClient:
         :param value: 要写入的寄存器值，可以是序列。
         """
         address = self.remapping.write_register[func_name]["Address"]
-        rospy.loginfo(f"address:{address}, value:{value}")
+        rospy.loginfo(f"func:{func_name}, address:{address}, value:{value}")
+
         self.client.writeRegisters(address, value)
 
-    def single_read_operation(self, func_name):
+    def single_read_operation(self, func_name,mul):
         """
         根据给定的函数名称读取寄存器。
         
@@ -33,7 +34,9 @@ class PLC_ModbusClient:
         :return: 读取的寄存器值，可以是序列。
         """
         address = self.remapping.read_register[func_name]["Address"]
-        num_registers = self.remapping.read_register[func_name]["num"]
+        num_registers = self.remapping.read_register[func_name]["num"] * mul
+        rospy.loginfo(f"func:{func_name}, address:{address}")
+
         return self.client.readRegisters(address, num_registers)
 
     def command_anaylsis(self, mode, value):
@@ -44,7 +47,7 @@ class PLC_ModbusClient:
         :param value: 要写入寄存器或配置的值，可以是序列。
         """
         # 根据模式从映射中获取操作列表
-        mode_list = self.remapping.opera["mapping"]["write_register"][str(mode)]
+        mode_list = self.remapping.opera["write_register"][str(mode)]
         
         value = self._norm_command(value)
         # 遍历模式列表，并对每个模式执行单次写入操作
@@ -96,7 +99,20 @@ class PLC_ModbusClient:
         data2 = int(data[16:],2)  # 后16位
         return [data2, data1] 
 
-
     def read_status(self):
-        for key in client.remapping.read_register.items():
-            tmp = self.single_read_operation(key)
+        register_tmp = []
+        for key, values in self.remapping.read_register.items():
+            tmp = self.single_read_operation(key,1)
+            register_tmp.append([key,tmp])
+        return register_tmp
+
+    def read_status2(self):
+        first_key, first_value = next(iter(self.remapping.read_register.items()))
+        tmp = self.single_read_operation(first_key,len(self.remapping.read_register))
+        
+        register_tmp = [tmp[i:i+2] for i in range(0, len(tmp), 2)]
+        
+        # 获取所有的key：
+        # keys_list = list(self.remapping.read_register.keys())
+        
+        return register_tmp

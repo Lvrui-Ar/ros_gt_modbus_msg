@@ -25,7 +25,7 @@ def callback_axis(msg):
 def callback_np(msg):
     mode = msg.mode
     strs = msg.strs
-    value = [[int(strs[0]),int(strs[1])]]
+    value = [[int(strs[0])],[int(strs[1])]]
 
     client.command_anaylsis(mode, value)
 
