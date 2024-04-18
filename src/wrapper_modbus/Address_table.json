@@ -1,6 +1,7 @@
 {
     "host": "",
     "port": "502",
+    "axis_num": 3,
     "mapping": {
         "write_register": {
             "X axis emergency stop": {
@@ -8,38 +9,43 @@
                 "Type": "INT",
                 "num": 2
             },
-            "X axis return-to-zero origin offset": {
+            "X-axis home offset ": {
                 "Address": "1002",
                 "Type": "INT",
                 "num": 2
             },
-            "X axis absolute position": {
+            "X-axis home start": {
                 "Address": "1004",
                 "Type": "INT",
                 "num": 2
             },
-            "X axis absolute positioning speed": {
+            "X axis absolute position": {
                 "Address": "1006",
                 "Type": "INT",
                 "num": 2
             },
-            "X axis absolute positioning acceleration": {
+            "X axis absolute positioning speed": {
                 "Address": "1008",
                 "Type": "INT",
                 "num": 2
             },
-            "X axis relative position": {
+            "X axis absolute positioning acceleration": {
                 "Address": "1010",
                 "Type": "INT",
                 "num": 2
             },
-            "X axis relative positioning speed": {
+            "X axis relative position": {
                 "Address": "1012",
                 "Type": "INT",
                 "num": 2
             },
-            "X axis relative positioning acceleration": {
+            "X axis relative positioning speed": {
                 "Address": "1014",
+                "Type": "INT",
+                "num": 2
+            },
+            "X axis relative positioning acceleration": {
+                "Address": "1016",
                 "Type": "INT",
                 "num": 2
             },
@@ -48,38 +54,43 @@
                 "Type": "INT",
                 "num": 2
             },
-            "Y axis return-to-zero origin offset": {
+            "Y-axis home offset": {
                 "Address": "1022",
                 "Type": "INT",
                 "num": 2
             },
-            "Y axis absolute position": {
+            "Y-axis home start": {
                 "Address": "1024",
                 "Type": "INT",
                 "num": 2
             },
-            "Y axis absolute positioning speed": {
+            "Y axis absolute position": {
                 "Address": "1026",
                 "Type": "INT",
                 "num": 2
             },
-            "Y axis absolute positioning acceleration": {
+            "Y axis absolute positioning speed": {
                 "Address": "1028",
                 "Type": "INT",
                 "num": 2
             },
-            "Y axis relative position": {
+            "Y axis absolute positioning acceleration": {
                 "Address": "1030",
                 "Type": "INT",
                 "num": 2
             },
-            "Y axis relative positioning speed": {
+            "Y axis relative position": {
                 "Address": "1032",
                 "Type": "INT",
                 "num": 2
             },
-            "Y axis relative positioning acceleration": {
+            "Y axis relative positioning speed": {
                 "Address": "1034",
+                "Type": "INT",
+                "num": 2
+            },
+            "Y axis relative positioning acceleration": {
+                "Address": "1036",
                 "Type": "INT",
                 "num": 2
             }

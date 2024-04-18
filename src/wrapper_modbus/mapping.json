@@ -6,8 +6,8 @@
                 "Y axis emergency stop"
             ],
             "1": [
-                "X axis return-to-zero origin offset",
-                "Y axis return-to-zero origin offset"
+                "X-axis home start",
+                "Y-axis home start"
             ],
             "2": [
                 "X axis absolute position",
