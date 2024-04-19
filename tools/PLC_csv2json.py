@@ -1,13 +1,19 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import rospy
 import csv
 import json
+from tools.path_configuration import PathConfig
 
 class CsvToJson:
     def __init__(self):
-        file_name1 = "../../doc/Address_table.csv"
-        mapping_w = self._read_csv(file_name1)
+        self._initialize_properties()
 
-        file_name2 = "../../doc/Address_table2.csv"
-        mapping_r = self._read_csv(file_name2)
+    def _initialize_properties(self):
+        self.path_config = PathConfig()
+
+        mapping_w = self._read_csv(self.path_config.write_address)
+        mapping_r = self._read_csv(self.path_config.read_address)
 
         self._json_setting(mapping_w, mapping_r)
 
@@ -36,16 +42,13 @@ class CsvToJson:
             "axis_num": 3,
             "mapping": {"write_register": data1, "read_register": data2}
         }
-        json_file_path = 'Address_table.json'
+        json_file_path = self.path_config.table_path
 
         # 将字典转换为 JSON 格式的字符串并写入文件
         with open(json_file_path, 'w') as json_file:
             json.dump(plc_json, json_file, indent=4)
 
         print(f"JSON 文件已保存到 {json_file_path}")
-
-
-    
 
 # c = CsvToJson()
 

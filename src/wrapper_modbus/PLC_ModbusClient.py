@@ -1,18 +1,19 @@
 import rospy
 from wrapper_modbus.BaseModbusClient import BaseModbusClient
 from wrapper_modbus.read_mapping import ReadMapping
-
+import os
 
 
 class PLC_ModbusClient:
-    def __init__(self, path1="./mapping.json"):
+    def __init__(self):
         """
         初始化PLC_ModbusClient类。
         
         :param path1: 读取映射文件的路径。
         """
-        self.remapping = ReadMapping(path1)
+        self.remapping = ReadMapping()
         self.client = BaseModbusClient(self.remapping.host, self.remapping.port)
+        rospy.loginfo("PLC_ModbusClient init")
 
     def single_write_operation(self, func_name, value):
         """

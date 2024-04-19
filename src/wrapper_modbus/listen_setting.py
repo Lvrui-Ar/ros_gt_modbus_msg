@@ -46,13 +46,8 @@ class SystemStatus:
         data_list = [["Axis_name", "current status", "fault code", "servo fault code", "current position", "current speed"],]
         processed_data = self.re_process(self.client.remapping.axis_num, reg_tmp)
         for i, axis_name in enumerate(axis_names):
-            # 创建包含 axis_name 的列表
             axis_data = [axis_name]
-
-            # 将处理后的数据与 axis_data 合并成 data_row
             data_row = axis_data + processed_data[i]
-
-            # 将 data_row 添加到 data_list 中
             data_list.append(data_row)
 
         print("-" * 50)

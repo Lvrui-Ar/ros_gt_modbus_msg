@@ -33,8 +33,8 @@ def callback_np(msg):
 if __name__ == '__main__':
     rospy.init_node('node_modbus')
 
-    path = ""
-    client = PLC_ModbusClient(path)
+    client = PLC_ModbusClient()
+    rospy.loginfo(" node_modbus start!")
 
     sub_wp = rospy.Subscriber('sub_move_wp', Control, callback_axis)
     sub_np = rospy.Subscriber('sub_move_np', Ctrl_np, callback_np)
