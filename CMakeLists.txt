@@ -50,8 +50,8 @@ catkin_python_setup()
 add_message_files(
   FILES
   Control.msg
-  Ctrl_detail.msg
-  Ctrl_np.msg
+  CtrlDetail.msg
+  CtrlNoParam.msg
   Status.msg
 )
 

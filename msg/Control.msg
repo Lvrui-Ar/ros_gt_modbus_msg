@@ -1,3 +1,3 @@
 int16 mode
-Ctrl_detail X_axis
-Ctrl_detail Y_axis
+CtrlDetail X_axis
+CtrlDetail Y_axis

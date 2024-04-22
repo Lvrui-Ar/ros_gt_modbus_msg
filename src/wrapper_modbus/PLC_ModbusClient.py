@@ -2,6 +2,7 @@ import rospy
 from wrapper_modbus.BaseModbusClient import BaseModbusClient
 from wrapper_modbus.read_mapping import ReadMapping
 import os
+from icecream import ic
 
 
 class PLC_ModbusClient:
@@ -25,7 +26,7 @@ class PLC_ModbusClient:
         address = self.remapping.write_register[func_name]["Address"]
         rospy.loginfo(f"func:{func_name}, address:{address}, value:{value}")
 
-        self.client.writeRegisters(address, value)
+        # self.client.writeRegisters(address, value)
 
     def single_read_operation(self, func_name,mul):
         """
@@ -47,13 +48,22 @@ class PLC_ModbusClient:
         :param mode: 指定的模式，用于确定要操作的寄存器或配置。
         :param value: 要写入寄存器或配置的值，可以是序列。
         """
+        ic(mode)
+        ic(value)
+
+
         # 根据模式从映射中获取操作列表
         mode_list = self.remapping.opera["write_register"][str(mode)]
+        ic(mode_list)
         
         value = self._norm_command(value)
+        ic(value)
+
         # 遍历模式列表，并对每个模式执行单次写入操作
         for i in range(len(mode_list)):
+            
             self.single_write_operation(mode_list[i], value[i])
+            print('over')
 
     def _norm_command(self, value):
         """
@@ -70,11 +80,14 @@ class PLC_ModbusClient:
         返回一个新列表，其中包含了经过标准化处理的命令参数。
         """
         values = []
+        
         for item in value:
-            # item = [0, item[0], 0, item[1], 0, item[2]]
+            items = []
             for v in item:
-                item += self._processdata(v) 
-            values.append(item)
+                items += self._processdata(v) 
+                ic(items)
+            values.append(items)
+            ic(values)
         return values
 
     def _processdata(self, data):
@@ -96,8 +109,8 @@ class PLC_ModbusClient:
             binary_str = bin(data & 0xffffffff)[2:].zfill(32)
         
         # 将二进制字符串分割并转换为整数
-        data1 = int(data[:16],2)  # 前16位
-        data2 = int(data[16:],2)  # 后16位
+        data1 = int(binary_str[:16],2)  # 前16位
+        data2 = int(binary_str[16:],2)  # 后16位
         return [data2, data1] 
 
     def read_status(self):

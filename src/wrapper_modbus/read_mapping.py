@@ -1,6 +1,7 @@
 import json
 from tools.PLC_csv2json import CsvToJson
-import sys
+from tools.path_configuration import PathConfig
+
 
 
 class ReadMapping:
@@ -10,9 +11,10 @@ class ReadMapping:
     def _initialize_properties(self):
         """初始化类的属性"""
 
-        csv2json = CsvToJson()
-        self.tablepath = csv2json.path_config.table_path
-        self.mappingpath = csv2json.path_config.mapping_path
+        self.path_config = PathConfig()
+
+        self.tablepath = self.path_config.table_path
+        self.mappingpath = self.path_config.mapping_path
 
         try:
             opera_content = self._read_file(self.mappingpath)
