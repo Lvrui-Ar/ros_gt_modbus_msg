@@ -1,6 +1,6 @@
 import json
-from tools.PLC_csv2json import CsvToJson
 from tools.path_configuration import PathConfig
+from icecream import ic
 
 
 
@@ -27,7 +27,10 @@ class ReadMapping:
         self.opera = opera_content["mapping"]
         self.json_mapping = json_mapping
         self.host = json_mapping.get("host")
-        self.port = json_mapping.get("port")
+        ic(self.host)
+        self.port = int(json_mapping.get("port"))
+        ic(self.port)
+        ic(type(self.port))
         self.axis_num = json_mapping.get("axis_num")
         self.write_register = json_mapping.get("mapping", {}).get("write_register")
         self.read_register = json_mapping.get("mapping", {}).get("read_register")

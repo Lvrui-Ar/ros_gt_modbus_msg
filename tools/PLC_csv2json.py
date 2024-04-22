@@ -3,7 +3,7 @@
 import rospy
 import csv
 import json
-from tools.path_configuration import PathConfig
+from path_configuration import PathConfig
 
 class CsvToJson:
     def __init__(self):
@@ -37,7 +37,7 @@ class CsvToJson:
 
     def _json_setting(self, data1, data2):
         plc_json = {
-            "host": "",
+            "host": "192.168.1.88",
             "port": "502",
             "axis_num": 3,
             "mapping": {"write_register": data1, "read_register": data2}
@@ -50,7 +50,7 @@ class CsvToJson:
 
         print(f"JSON 文件已保存到 {json_file_path}")
 
-# c = CsvToJson()
+c = CsvToJson()
 
 
 

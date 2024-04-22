@@ -1,5 +1,5 @@
 {
-    "host": "",
+    "host": "192.168.1.88",
     "port": "502",
     "axis_num": 3,
     "mapping": {

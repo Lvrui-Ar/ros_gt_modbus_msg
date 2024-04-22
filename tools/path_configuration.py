@@ -1,6 +1,6 @@
 import os
 import logging
-from icecream import ic
+# from icecream import ic
 
 # 配置日志
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -25,9 +25,9 @@ class PathConfig:
         """获取当前脚本文件的所在目录及其上两级目录"""
         try:
             current_script_directory = os.path.dirname(os.path.realpath(__file__))
-            ic(current_script_directory)
+            # ic(current_script_directory)
             parent_directory = os.path.abspath(os.path.join(current_script_directory, os.pardir))
-            ic(parent_directory)
+            # ic(parent_directory)
             return parent_directory
         except Exception as e:
             logging.error(f"获取路径时出错: {e}")
