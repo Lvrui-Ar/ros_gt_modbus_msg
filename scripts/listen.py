@@ -11,7 +11,7 @@ if __name__ == '__main__':
     rospy.loginfo("启动 ModBus 客户端")
     sys = SystemStatus(client)
 
-    pub = rospy.Publisher('Listener_modbus', Slide_table_status, queue_size=10)
+    pub = rospy.Publisher('Listener_modbus', Status, queue_size=10)
 
     rate = rospy.Rate(1)
     while not rospy.is_shutdown():
