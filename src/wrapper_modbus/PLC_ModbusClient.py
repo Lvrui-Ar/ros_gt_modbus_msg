@@ -2,6 +2,7 @@ import rospy
 from wrapper_modbus.BaseModbusClient import BaseModbusClient
 from wrapper_modbus.read_mapping import ReadMapping
 import os
+import time
 # from icecream import ic
 
 
@@ -14,7 +15,11 @@ class PLC_ModbusClient:
         """
         self.remapping = ReadMapping()
         self.client = BaseModbusClient(self.remapping.host, self.remapping.port)
-        rospy.loginfo("PLC_ModbusClient init")
+        
+        # 单轴是否移动控制 参数：
+        self.move = 1
+        self.max_wait_time = 60  # 最大等待时间，单位为秒
+        self.waited_time = 0  # 已等待的时间
     
     def _data_validation(self,data,lower,upper):
         try:
@@ -50,6 +55,7 @@ class PLC_ModbusClient:
         for i in range(len(mode_list)):
             self.single_write_operation(mode_list[i], value[i])
             rospy.loginfo("单次写入操作完成")
+            self.movement_condition()
         rospy.loginfo("写入操作完成")
 
     def _norm_command(self, value):
@@ -106,8 +112,18 @@ class PLC_ModbusClient:
         """
         address = self.remapping.write_register[func_name]["Address"]
         rospy.loginfo(f"func:{func_name}, address:{address}, value:{value}")
+        self.client._writeRegisters(address, value)
 
-        self.client.writeRegisters(address, value)
+    def movement_condition(self):
+        while self.move != 1 and self.waited_time < self.max_wait_time:
+            time.sleep(1)  # 每次等待1秒钟
+            self.waited_time += 1
+
+        if self.move == 1:
+            pass
+        else:
+            rospy.logwarn("已达到最大等待时间,但move的值仍不为1,退出等待")
+            self.command_anaylsis("0", [[0], [0]])
 
     def single_read_operation(self, func_name,mul):
         """

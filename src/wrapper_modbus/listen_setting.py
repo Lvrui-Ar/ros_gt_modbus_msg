@@ -45,6 +45,9 @@ class SystemStatus:
         axis_names = ["X axis 1", "X axis 2", "Y axis"]
         data_list = [["Axis_name", "current status", "fault code", "servo fault code", "current position", "current speed"],]
         processed_data = self.re_process(self.client.remapping.axis_num, reg_tmp)
+
+        moveCtrl_param_set(processed_data[0][0])
+
         for i, axis_name in enumerate(axis_names):
             axis_data = [axis_name]
             data_row = axis_data + processed_data[i]
@@ -60,5 +63,14 @@ class SystemStatus:
         print("-" * 50)
 
         return processed_data
+    
+    def moveCtrl_param_set(self,num):
+        if self.client.move:
+            if num == 4 or num == 7:
+                self.client.move = 0
+        else:
+             if not num == 4 or num == 7:
+                self.client.move = 1
+
 
 
