@@ -2,7 +2,7 @@ import rospy
 from wrapper_modbus.BaseModbusClient import BaseModbusClient
 from wrapper_modbus.read_mapping import ReadMapping
 import os
-from icecream import ic
+# from icecream import ic
 
 
 class PLC_ModbusClient:
@@ -20,7 +20,6 @@ class PLC_ModbusClient:
         try:
             ic(data,lower,upper)
             if  lower<= data and data <= upper:
-                ic("位置参数 验证通过")
                 rospy.loginfo("位置参数 验证通过")
             else:
                 raise ValueError(f"{data} 不在 [{lower}, {upper}] 范围内")          
@@ -38,15 +37,9 @@ class PLC_ModbusClient:
         # 根据模式从映射中获取操作列表
         mode_list = self.remapping.opera["write_register"][str(mode)]
 
-        ic(value[0][0])
-        ic(self.remapping.itinerary_setting_x[0],  self.remapping.itinerary_setting_x[1])
-        ic(type(self.remapping.itinerary_setting_x[0]),type(self.remapping.itinerary_setting_x[1])) 
-
         self._data_validation(value[0][0],
                               self.remapping.itinerary_setting_x[0],
                               self.remapping.itinerary_setting_x[1])
-        ic(value[1][0])
-        ic(self.remapping.itinerary_setting_y[0],  self.remapping.itinerary_setting_y[1])
         self._data_validation(value[1][0],
                               self.remapping.itinerary_setting_y[0],
                               self.remapping.itinerary_setting_y[1])
@@ -55,7 +48,6 @@ class PLC_ModbusClient:
 
         # 遍历模式列表，并对每个模式执行单次写入操作
         for i in range(len(mode_list)):
-            
             self.single_write_operation(mode_list[i], value[i])
             rospy.loginfo("单次写入操作完成")
         rospy.loginfo("写入操作完成")

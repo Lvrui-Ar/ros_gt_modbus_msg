@@ -55,7 +55,7 @@ class CsvToJson:
         with open(json_file_path, 'w') as json_file:
             json.dump(plc_json, json_file, indent=4)
 
-        print(f"JSON 文件已保存到 {json_file_path}")
+        print(f"The JSON file has been saved to the {json_file_path}")
 
     def safe_type_conversion(self,data, target_type):
         """

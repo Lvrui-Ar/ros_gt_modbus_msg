@@ -1,6 +1,6 @@
 import json
 from tools.path_configuration import PathConfig
-from icecream import ic
+# from icecream import ic
 
 
 
@@ -32,10 +32,6 @@ class ReadMapping:
 
         self.itinerary_setting_x = json_mapping.get("Itinerary Setting",{}).get("X_axis")
         self.itinerary_setting_y = json_mapping.get("Itinerary Setting",{}).get("Y_axis")
-        ic(self.itinerary_setting_x)
-        ic(type(self.itinerary_setting_x))
-        ic(self.itinerary_setting_y)
-        ic(type(self.itinerary_setting_y))
 
         self.write_register = json_mapping.get("mapping", {}).get("write_register")
         self.read_register = json_mapping.get("mapping", {}).get("read_register")
