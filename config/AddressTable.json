@@ -1,173 +1,183 @@
 {
     "host": "192.168.1.88",
-    "port": "502",
+    "port": 502,
     "axis_num": 3,
+    "Itinerary Setting": {
+        "X_axis": [
+            -1000,
+            1000
+        ],
+        "Y_axis": [
+            0,
+            1000
+        ]
+    },
     "mapping": {
         "write_register": {
             "X axis emergency stop": {
-                "Address": "1000",
+                "Address": 1000,
                 "Type": "INT",
                 "num": 2
             },
             "X-axis home offset ": {
-                "Address": "1002",
+                "Address": 1002,
                 "Type": "INT",
                 "num": 2
             },
             "X-axis home start": {
-                "Address": "1004",
+                "Address": 1004,
                 "Type": "INT",
                 "num": 2
             },
             "X axis absolute position": {
-                "Address": "1006",
+                "Address": 1006,
                 "Type": "INT",
                 "num": 2
             },
             "X axis absolute positioning speed": {
-                "Address": "1008",
+                "Address": 1008,
                 "Type": "INT",
                 "num": 2
             },
             "X axis absolute positioning acceleration": {
-                "Address": "1010",
+                "Address": 1010,
                 "Type": "INT",
                 "num": 2
             },
             "X axis relative position": {
-                "Address": "1012",
+                "Address": 1012,
                 "Type": "INT",
                 "num": 2
             },
             "X axis relative positioning speed": {
-                "Address": "1014",
+                "Address": 1014,
                 "Type": "INT",
                 "num": 2
             },
             "X axis relative positioning acceleration": {
-                "Address": "1016",
+                "Address": 1016,
                 "Type": "INT",
                 "num": 2
             },
             "Y axis emergency stop": {
-                "Address": "1020",
+                "Address": 1020,
                 "Type": "INT",
                 "num": 2
             },
             "Y-axis home offset": {
-                "Address": "1022",
+                "Address": 1022,
                 "Type": "INT",
                 "num": 2
             },
             "Y-axis home start": {
-                "Address": "1024",
+                "Address": 1024,
                 "Type": "INT",
                 "num": 2
             },
             "Y axis absolute position": {
-                "Address": "1026",
+                "Address": 1026,
                 "Type": "INT",
                 "num": 2
             },
             "Y axis absolute positioning speed": {
-                "Address": "1028",
+                "Address": 1028,
                 "Type": "INT",
                 "num": 2
             },
             "Y axis absolute positioning acceleration": {
-                "Address": "1030",
+                "Address": 1030,
                 "Type": "INT",
                 "num": 2
             },
             "Y axis relative position": {
-                "Address": "1032",
+                "Address": 1032,
                 "Type": "INT",
                 "num": 2
             },
             "Y axis relative positioning speed": {
-                "Address": "1034",
+                "Address": 1034,
                 "Type": "INT",
                 "num": 2
             },
             "Y axis relative positioning acceleration": {
-                "Address": "1036",
+                "Address": 1036,
                 "Type": "INT",
                 "num": 2
             }
         },
         "read_register": {
             "X axis 1 current status": {
-                "Address": "1100",
+                "Address": 1100,
                 "Type": "INT",
                 "num": 2
             },
             "X axis 1 axis fault code": {
-                "Address": "1102",
+                "Address": 1102,
                 "Type": "INT",
                 "num": 2
             },
             "X axis 1 servo fault code": {
-                "Address": "1104",
+                "Address": 1104,
                 "Type": "INT",
                 "num": 2
             },
             "X axis 1 current position": {
-                "Address": "1106",
+                "Address": 1106,
                 "Type": "INT",
                 "num": 2
             },
             "X axis 1 current speed": {
-                "Address": "1108",
+                "Address": 1108,
                 "Type": "INT",
                 "num": 2
             },
             "X axis 2 current status": {
-                "Address": "1110",
+                "Address": 1110,
                 "Type": "INT",
                 "num": 2
             },
             "X axis 2 axis fault code": {
-                "Address": "1112",
+                "Address": 1112,
                 "Type": "INT",
                 "num": 2
             },
             "X axis 2 servo fault code": {
-                "Address": "1114",
+                "Address": 1114,
                 "Type": "INT",
                 "num": 2
             },
             "X axis 2 current position": {
-                "Address": "1116",
+                "Address": 1116,
                 "Type": "INT",
                 "num": 2
             },
             "X axis 2 current speed": {
-                "Address": "1118",
+                "Address": 1118,
                 "Type": "INT",
                 "num": 2
             },
             "Y axis current status": {
-                "Address": "1120",
+                "Address": 1120,
                 "Type": "INT",
                 "num": 2
             },
             "Y axis fault code": {
-                "Address": "1122",
+                "Address": 1122,
                 "Type": "INT",
                 "num": 2
             },
             "Y axis servo fault code": {
-                "Address": "1124",
+                "Address": 1124,
                 "Type": "INT",
                 "num": 2
             },
             "Y axis current position": {
-                "Address": "1126",
+                "Address": 1126,
                 "Type": "INT",
                 "num": 2
             },
             "Y axis current speed": {
-                "Address": "1128",
+                "Address": 1128,
                 "Type": "INT",
                 "num": 2
             }

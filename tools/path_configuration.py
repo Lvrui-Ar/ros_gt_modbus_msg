@@ -10,9 +10,9 @@ class PathConfig:
         self.FolderName  = "config/"
         self.WriteAddressTable = "Write_address_table.csv"
         self.ReadAddressTable  = "Read_address_table.csv"
-        self.AddressTable      = "Address_table.json"
+        self.AddressTable      = "AddressTable.json"
 
-        self.MappingName       = "mapping.json"
+        self.MappingName       = "FunctionSettingTable.json"
     
         try:
             self.p_dir = self.getScriptDirectory()

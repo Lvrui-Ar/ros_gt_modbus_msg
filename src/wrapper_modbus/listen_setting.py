@@ -16,9 +16,9 @@ class SystemStatus:
         return abs_difference
         
     def re_processdata(self,value_list):
-        str1 = binary_str = bin(value_list[0])[2:].zfill(16)
-        str2 = binary_str = bin(value_list[1])[2:].zfill(16)
-        bin_str = str2+str1   # 32位
+        str1 = bin(value_list[0])[2:].zfill(16)
+        str2  = bin(value_list[1])[2:].zfill(16)
+        bin_str = str2 + str1   # 32位
 
         if bin_str[0] == '1':
             # 负数，转换为补码

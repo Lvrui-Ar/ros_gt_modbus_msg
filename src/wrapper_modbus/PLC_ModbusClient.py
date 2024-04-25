@@ -2,7 +2,7 @@ import rospy
 from wrapper_modbus.BaseModbusClient import BaseModbusClient
 from wrapper_modbus.read_mapping import ReadMapping
 import os
-# from icecream import ic
+from icecream import ic
 
 
 class PLC_ModbusClient:
@@ -15,31 +15,18 @@ class PLC_ModbusClient:
         self.remapping = ReadMapping()
         self.client = BaseModbusClient(self.remapping.host, self.remapping.port)
         rospy.loginfo("PLC_ModbusClient init")
-
-    def single_write_operation(self, func_name, value):
-        """
-        根据给定的函数名称和值进行单次写入操作。
-        
-        :param func_name: 指定的函数名称，用于确定要写入的寄存器。
-        :param value: 要写入的寄存器值，可以是序列。
-        """
-        address = self.remapping.write_register[func_name]["Address"]
-        rospy.loginfo(f"func:{func_name}, address:{address}, value:{value}")
-
-        # self.client.writeRegisters(address, value)
-
-    def single_read_operation(self, func_name,mul):
-        """
-        根据给定的函数名称读取寄存器。
-        
-        :param func_name: 指定的函数名称，用于确定要读取的寄存器。
-        :return: 读取的寄存器值，可以是序列。
-        """
-        address = self.remapping.read_register[func_name]["Address"]
-        num_registers = self.remapping.read_register[func_name]["num"] * mul
-        rospy.loginfo(f"func:{func_name}, address:{address}")
-
-        return self.client.readRegisters(address, num_registers)
+    
+    def _data_validation(self,data,lower,upper):
+        try:
+            ic(data,lower,upper)
+            if  lower<= data and data <= upper:
+                ic("位置参数 验证通过")
+                rospy.loginfo("位置参数 验证通过")
+            else:
+                raise ValueError(f"{data} 不在 [{lower}, {upper}] 范围内")          
+        except ValueError as e1:
+            rospy.logerr("位置参数 验证失败")
+            raise e1
 
     def command_anaylsis(self, mode, value):
         """
@@ -50,13 +37,28 @@ class PLC_ModbusClient:
         """
         # 根据模式从映射中获取操作列表
         mode_list = self.remapping.opera["write_register"][str(mode)]
+
+        ic(value[0][0])
+        ic(self.remapping.itinerary_setting_x[0],  self.remapping.itinerary_setting_x[1])
+        ic(type(self.remapping.itinerary_setting_x[0]),type(self.remapping.itinerary_setting_x[1])) 
+
+        self._data_validation(value[0][0],
+                              self.remapping.itinerary_setting_x[0],
+                              self.remapping.itinerary_setting_x[1])
+        ic(value[1][0])
+        ic(self.remapping.itinerary_setting_y[0],  self.remapping.itinerary_setting_y[1])
+        self._data_validation(value[1][0],
+                              self.remapping.itinerary_setting_y[0],
+                              self.remapping.itinerary_setting_y[1])
+
         value = self._norm_command(value)
 
         # 遍历模式列表，并对每个模式执行单次写入操作
         for i in range(len(mode_list)):
             
             self.single_write_operation(mode_list[i], value[i])
-            print('over')
+            rospy.loginfo("单次写入操作完成")
+        rospy.loginfo("写入操作完成")
 
     def _norm_command(self, value):
         """
@@ -102,6 +104,31 @@ class PLC_ModbusClient:
         data1 = int(binary_str[:16],2)  # 前16位
         data2 = int(binary_str[16:],2)  # 后16位
         return [data2, data1] 
+    
+    def single_write_operation(self, func_name, value):
+        """
+        根据给定的函数名称和值进行单次写入操作。
+        
+        :param func_name: 指定的函数名称，用于确定要写入的寄存器。
+        :param value: 要写入的寄存器值，可以是序列。
+        """
+        address = self.remapping.write_register[func_name]["Address"]
+        rospy.loginfo(f"func:{func_name}, address:{address}, value:{value}")
+
+        self.client.writeRegisters(address, value)
+
+    def single_read_operation(self, func_name,mul):
+        """
+        根据给定的函数名称读取寄存器。
+        
+        :param func_name: 指定的函数名称，用于确定要读取的寄存器。
+        :return: 读取的寄存器值，可以是序列。
+        """
+        address = self.remapping.read_register[func_name]["Address"]
+        num_registers = self.remapping.read_register[func_name]["num"] * mul
+        rospy.loginfo(f"func:{func_name}, address:{address}")
+
+        return self.client.readRegisters(address, num_registers)
 
     def read_status(self):
         register_tmp = []
@@ -114,9 +141,5 @@ class PLC_ModbusClient:
         first_key, first_value = next(iter(self.remapping.read_register.items()))
         tmp = self.single_read_operation(first_key,len(self.remapping.read_register))
         
-        register_tmp = [tmp[i:i+2] for i in range(0, len(tmp), 2)]
-        
-        # 获取所有的key：
-        # keys_list = list(self.remapping.read_register.keys())
-        
+        register_tmp = [tmp[i:i+2] for i in range(0, len(tmp), 2)]        
         return register_tmp
