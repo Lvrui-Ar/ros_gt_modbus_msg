@@ -33,15 +33,15 @@ class BaseModbusClient:
         """
         try:
             self.client = ModbusTcpClient(host, port)
-            self.client.connect()
-            rospy.loginfo("已连接到 Modbus 服务器 '%s:%d'", host, port)
+            isConnect = self.client.connect()
+            if isConnect:
+                rospy.loginfo("已连接到 Modbus 服务器 '%s:%d'", host, port)
+            else:
+                rospy.logwarn("无法连接到 Modbus 服务器 '%s:%d'", host, port)
+                raise 
         except Exception as e:
-            rospy.logwarn(
-                "无法与主机 '%s' 建立 Modbus 连接。错误：%s",
-                host,
-                str(e),
-            )
             raise e
+
         self.post = Post(self)
         self.__last_output_time = rospy.get_time()
 

@@ -14,7 +14,6 @@ def callback_axis(msg):
             rospy.loginfo(f"mode:{mode},value:{value}")
             client.command_anaylsis(mode, value)
         else:
-            rospy.logerr("error mode")
             raise ValueError(f"error mode:{mode}")
     except ValueError as e:
         raise e
@@ -28,7 +27,6 @@ def callback_np(msg):
             rospy.loginfo(f"mode:{mode},value:{value}")
             client.command_anaylsis(mode, value)
         else:
-            rospy.logerr("error mode")
             raise ValueError(f"error mode:{mode}")
     except ValueError as e:
         raise e
