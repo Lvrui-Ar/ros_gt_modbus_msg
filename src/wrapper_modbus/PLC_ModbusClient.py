@@ -23,7 +23,6 @@ class PLC_ModbusClient:
     
     def _data_validation(self,data,lower,upper):
         try:
-            ic(data,lower,upper)
             if  lower<= data and data <= upper:
                 rospy.loginfo("位置参数 验证通过")
             else:

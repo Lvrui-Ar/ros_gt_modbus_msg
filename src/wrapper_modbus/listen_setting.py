@@ -48,7 +48,7 @@ class SystemStatus:
         data_list = [["Axis_name", "current status", "fault code", "servo fault code", "current position", "current speed"],]
         processed_data = self.re_process(self.client.remapping.axis_num, reg_tmp)
 
-        moveCtrl_param_set(processed_data[0][0])
+        self.moveCtrl_param_set(processed_data[0][0])
 
         for i, axis_name in enumerate(axis_names):
             axis_data = [axis_name]
