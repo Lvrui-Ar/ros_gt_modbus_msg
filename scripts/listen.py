@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
     pub = rospy.Publisher('Listener_modbus', Status, queue_size=10)
 
-    rate = rospy.Rate(1)
+    rate = rospy.Rate(10)
     while not rospy.is_shutdown():
         status = Status()
         processed_data = sys.format(client.read_status2())
@@ -23,6 +23,6 @@ if __name__ == '__main__':
 
         pub.publish(status)
         rate.sleep()    
-        rospy.spin()
+
 
 

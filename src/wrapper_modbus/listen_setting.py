@@ -69,10 +69,10 @@ class SystemStatus:
     def moveCtrl_param_set(self,num):
         if self.client.move:
             if num == 4 or num == 7:
-                self.client.move = 0
+                rospy.set_param("move",0)
         else:
              if not num == 4 or num == 7:
-                self.client.move = 1
+                rospy.set_param("move",1)
 
 
 

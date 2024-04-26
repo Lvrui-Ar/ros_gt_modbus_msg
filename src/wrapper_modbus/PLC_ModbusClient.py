@@ -114,6 +114,7 @@ class PLC_ModbusClient:
         self.client._writeRegisters(address, value)
 
     def movement_condition(self):
+        self.move = rospy.get_param("move")
         while self.move != 1 and self.waited_time < self.max_wait_time:
             time.sleep(1)  # 每次等待1秒钟
             self.waited_time += 1
