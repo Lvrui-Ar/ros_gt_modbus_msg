@@ -1,9 +1,11 @@
 import rospy
+from icecream import ic
 
 
 class SystemStatus:
     def __init__(self,client):
         self.client = client
+        rospy.set_param('move', 1)
 
     def check_XAxis_pol(self,x_pol_list,num):
         # 计算两个数的绝对值的差
@@ -58,8 +60,11 @@ class SystemStatus:
         print("-" * 50)
         pos_l = [data_list[1][4], data_list[2][4]]
         speed_l = [data_list[1][5], data_list[2][5]]
-        print(f"X axis  position_diff: {self.check_XAxis_pol(pos_l, processed_data[0][0])}")
-        print(f"X axis  speed_diff: {self.check_XAxis_pol(speed_l,processed_data[0][0])}")
+ 
+        # 两轴同步：
+        # print(f"X axis  position_diff: {self.check_XAxis_pol(pos_l, processed_data[0][0])}")
+        # print(f"X axis  speed_diff: {self.check_XAxis_pol(speed_l,processed_data[0][0])}")
+ 
         for row in data_list:
             print(f"{row[0]:<10} {row[1]:<15} {row[2]:<15} {row[3]:<20} {row[4]:<20} {row[5]:<15}")
         print("-" * 50)
@@ -68,11 +73,16 @@ class SystemStatus:
     
     def moveCtrl_param_set(self,num):
         if self.client.move:
+            ic(self.client.move)
+            ic(num)
             if num == 4 or num == 7:
                 rospy.set_param("move",0)
+                self.client.move = rospy.get_param("move")
+                ic(self.client.move)
         else:
              if not num == 4 or num == 7:
                 rospy.set_param("move",1)
+                self.client.move = rospy.get_param("move")
 
 
 

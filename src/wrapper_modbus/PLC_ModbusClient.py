@@ -3,7 +3,7 @@ from wrapper_modbus.BaseModbusClient import BaseModbusClient
 from wrapper_modbus.read_mapping import ReadMapping
 import os
 import time
-# from icecream import ic
+from icecream import ic
 
 
 class PLC_ModbusClient:
@@ -54,6 +54,7 @@ class PLC_ModbusClient:
         for i in range(len(mode_list)):
             self.single_write_operation(mode_list[i], value[i])
             rospy.loginfo("单次写入操作完成")
+            time.sleep(5)
             self.movement_condition()
         rospy.loginfo("写入操作完成")
 
@@ -115,6 +116,7 @@ class PLC_ModbusClient:
 
     def movement_condition(self):
         self.move = rospy.get_param("move")
+        ic(self.move)
         while self.move != 1 and self.waited_time < self.max_wait_time:
             time.sleep(1)  # 每次等待1秒钟
             self.waited_time += 1
