@@ -16,7 +16,7 @@ if __name__ == '__main__':
     rate = rospy.Rate(1)
     while not rospy.is_shutdown():
         status = Status()
-        processed_data = sys.format(client.read_status2)
+        processed_data = sys.format(client.read_status2())
         status.x1 = processed_data[0]
         status.x2 = processed_data[1]
         status.y1 = processed_data[2]
