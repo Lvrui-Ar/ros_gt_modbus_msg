@@ -36,7 +36,6 @@ class ReadMapping:
         self.write_register = json_mapping.get("mapping", {}).get("write_register")
         self.read_register = json_mapping.get("mapping", {}).get("read_register")
 
-    @staticmethod
     def _read_file(file_path)-> object:
         """读取并返回文件内容"""
         with open(file_path, "r") as j:
