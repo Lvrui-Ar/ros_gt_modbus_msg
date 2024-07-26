@@ -10,8 +10,6 @@ class PLC_ModbusClient:
     def __init__(self):
         """
         初始化PLC_ModbusClient类。
-        
-        :param path1: 读取映射文件的路径。
         """
         self.remapping = ReadMapping()
         self.client = BaseModbusClient(self.remapping.host, self.remapping.port)
@@ -21,13 +19,30 @@ class PLC_ModbusClient:
         self.max_wait_time = 60  # 最大等待时间，单位为秒
         self.waited_time = 0  # 已等待的时间
     
-    def _data_validation(self,data,lower,upper):
+    def _data_validation(self, data, lower, upper):
+        """
+        验证数据是否在指定的上下限范围内。
+
+        如果数据在范围内，则记录一条信息日志表示验证通过。
+        如果数据不在范围内，则抛出一个ValueError，并记录一条错误日志表示验证失败。
+
+        参数:
+        - data: 待验证的数据。
+        - lower: 数据的下限。
+        - upper: 数据的上限。
+
+        抛出:
+        - ValueError: 如果数据不在指定范围内，则抛出此异常。
+        """
         try:
-            if  lower<= data and data <= upper:
+            # 检查数据是否在指定的上下限范围内
+            if lower <= data and data <= upper:
                 rospy.loginfo("位置参数 验证通过")
             else:
-                raise ValueError(f"{data} 不在 [{lower}, {upper}] 范围内")          
+                # 如果数据不在范围内，抛出ValueError异常
+                raise ValueError(f"{data} 不在 [{lower}, {upper}] 范围内")
         except ValueError as e1:
+            # 捕获ValueError异常，记录错误日志，并重新抛出异常
             rospy.logerr("位置参数 验证失败")
             raise e1
 
@@ -54,8 +69,8 @@ class PLC_ModbusClient:
         for i in range(len(mode_list)):
             self.single_write_operation(mode_list[i], value[i])
             rospy.loginfo("单次写入操作完成")
-            time.sleep(5)
-            self.movement_condition()
+            # time.sleep(5)
+            # self.movement_condition()
         rospy.loginfo("写入操作完成")
 
     def _norm_command(self, value):
@@ -88,7 +103,7 @@ class PLC_ModbusClient:
         - data: 需要处理的整数数据。
         
         返回值:
-        - 一个包含两个整数的列表，分别是处理后的数据的前16位和后16位二进制转换后的结果。
+        - 一个包含两个整数的列表,分别是处理后的数据的前16位和后16位二进制转换后的结果。
         """
 
         # 判断正负
@@ -114,18 +129,6 @@ class PLC_ModbusClient:
         rospy.loginfo(f"func:{func_name}, address:{address}, value:{value}")
         self.client._writeRegisters(address, value)
 
-    def movement_condition(self):
-        self.move = rospy.get_param("move")
-        ic(self.move)
-        while self.move != 1 and self.waited_time < self.max_wait_time:
-            time.sleep(1)  # 每次等待1秒钟
-            self.waited_time += 1
-
-        if self.move == 1:
-            pass
-        else:
-            rospy.logwarn("已达到最大等待时间,但move的值仍不为1,退出等待")
-            self.command_anaylsis("0", [[0], [0]])
 
     def single_read_operation(self, func_name,mul):
         """
@@ -141,10 +144,24 @@ class PLC_ModbusClient:
         return self.client.readRegisters(address, num_registers)
 
     def read_status(self):
+        """
+        读取当前状态寄存器的值。
+
+        该方法通过遍历重映射字典中的寄存器项，对每个寄存器执行一次单次读取操作，
+        并将寄存器名称及其对应的值存储在一个列表中。最后，返回这个包含所有寄存器状态的列表。
+
+        Returns:
+            list: 包含每个寄存器名称及其当前值的列表。
+        """
+        # 初始化一个临时列表，用于存储寄存器名称和值的组合
         register_tmp = []
+        # 遍历重映射字典中的每个寄存器项
         for key, values in self.remapping.read_register.items():
+            # 对当前寄存器执行单次读取操作，并将结果存储在tmp中
             tmp = self.single_read_operation(key,1)
+            # 将寄存器名称和读取的值作为一个元组添加到临时列表中
             register_tmp.append([key,tmp])
+        # 返回包含所有寄存器名称和值的列表
         return register_tmp
 
     def read_status2(self):

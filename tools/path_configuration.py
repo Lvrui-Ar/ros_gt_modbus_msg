@@ -6,12 +6,16 @@ import logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class PathConfig:
+    """
+    路径配置
+    """
+
     def __init__(self):
         self.FolderName  = "config/"
         self.WriteAddressTable = "Write_address_table.csv"
         self.ReadAddressTable  = "Read_address_table.csv"
+        
         self.AddressTable      = "AddressTable.json"
-
         self.MappingName       = "FunctionSettingTable.json"
     
         try:
